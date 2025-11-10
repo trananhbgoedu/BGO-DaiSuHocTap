@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài Test VAK - Tìm hiểu phong cách học tập của bạn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>BÀI TEST VAK - TÌM HIỂU PHONG CÁCH HỌC TẬP CỦA BẠN</h2>
+  <p id="progress">Câu 1 / 30</p>
+  <form id="vakForm"></form>
+  <p id="alert">Bạn chưa trả lời câu hỏi này!</p>
+  
+  <div id="navigation">
+    <button type="button" id="prevBtn">Câu hỏi trước</button>
+    <button type="button" id="nextBtn">Câu hỏi tiếp theo</button>
+  </div>
+  
+  <div id="result"></div>
+
+  <script>
+    const questions = [
+      "1. Khi bắt đầu sử dụng một thiết bị mới, tôi thường:",
+      "2. Khi cần tìm đường đi, tôi thường:",
+      "3. Khi tập nấu một món ăn mới, tôi thường:",
+      "4. Khi phải dạy người khác một cái gì đó, tôi thường:",
+      "5. Tôi có khuynh hướng nói rằng:",
+      "6. Tôi có khuynh hướng nói rằng:",
+      "7. Khi có thời gian rảnh rỗi, tôi thích:",
+      "8. Khi đi mua sắm quần áo, tôi thường:",
+      "9. Khi lựa chọn địa điểm cho kỳ nghỉ, tôi thường:",
+      "10. Khi chọn mua một chiếc xe mới, tôi thường:",
+      "11. Khi học một kỹ năng mới, tôi thường:",
+      "12. Khi chọn một món ăn trong thực đơn, tôi thường:",
+      "13. Trong quá trình học, tôi thích giáo viên:",
+      "14. Khi nghe một ban nhạc trình diễn, tôi thường:",
+      "15. Khi cần tập trung, tôi thường:",
+      "16. Tôi thường chọn vật dụng cho gia đình dựa vào:",
+      "17. Khi bồn chồn lo lắng, tôi thường:",
+      "18. Tôi thường có cảm tình với người khác thông qua:",
+      "19. Khi phải ôn tập cho một kỳ thi, tôi thường:",
+      "20. Trong lớp học, tôi hay bị mất tập trung khi:",
+      "21. Khi giải thích cho ai một điều gì đó, tôi thường:",
+      "22. Sở thích chính của tôi là:",
+      "23. Trong những lúc rảnh rỗi, tôi thích:",
+      "24. Để làm quen với một người mới, tôi thường:",
+      "25. Điều đầu tiên tôi chú ý ở một người khác là:",
+      "26. Khi tức giận, tôi thường:",
+      "27. Tôi thấy mình dễ nhớ nhất là:",
+      "28. Tôi nghĩ rằng tôi có thể nói với ai đó rằng họ đang nói dối bởi vì:",
+      "29. Khi tôi gặp lại một người bạn cũ:",
+      "30. Tôi có khả năng nhớ tốt nhất khi:"
+    ];
+
+    const options = [
+      ["A. Đọc hướng dẫn sử dụng trước", "B. Nghe hướng dẫn từ một ai đó đã từng sử dụng rồi", "C. Cứ thử sử dụng, tôi sẽ biết cách sử dụng sau khi thử"],
+      ["A. Xem bản đồ", "B. Hỏi ai đó đường đi", "C. Đi theo linh cảm của bản thân, hoặc có thể sử dụng một cái la bàn"],
+      ["A. Làm theo công thức đã được viết sẵn", "B. Gọi cho một người bạn, người thân để nhờ hướng dẫn", "C. Làm theo bản năng và thử nghiệm trong lúc nấu"],
+      ["A. Ghi rõ hướng dẫn cho họ", "B. Giải thích cho họ bằng lời nói", "C. Mô tả cho họ trước, sau đó để họ làm theo"],
+      ["A. “Cho tôi xem đi!”", "B. “Nói cho tôi nghe xem”", "C. “Cho tôi thử xem”"],
+      ["A. “Hãy xem tôi làm!”", "B. “Hãy nghe tôi giải thích”", "C. “Bạn hãy thử xem”"],
+      ["A. Đi đến viện bảo tàng hay phòng tranh", "B. Nghe nhạc hay nói chuyện phiếm với bạn bè", "C. Chơi thể thao hay tham gia hoạt động nào đó sử dụng tay chân"],
+      ["A. Nhìn màu sắc kiểu dáng rồi quyết định", "B. Nói chuyện nhiều với người bán rồi mới quyết định", "C. Cầm lên xem chất liệu, mặc thử rồi quyết định"],
+      ["A. Đọc nhiều tờ rơi quảng cáo", "B. Nghe những gợi ý", "C. Hình dung khi mình tới những nơi đó sẽ cảm thấy như thế nào"],
+      ["A. Đọc nhận xét trên các báo và tạp chí", "B. Trao đổi nhiều với bạn bè", "C. Chạy thử nhiều loại khác nhau trước khi quyết định"],
+      ["A. Quan sát những gì giáo viên làm", "B. Nói chuyện với giáo viên để biết chính xác những gì mình phải làm", "C. Thích tự làm thử và học hỏi trong quá trình làm"],
+      ["A. Tưởng tượng món ăn sẽ trông như thế nào", "B. Tự nói với bản thân nên chọn món ăn nào", "C. Hình dung món ăn sẽ có mùi vị như thế nào"],
+      ["A. Dùng nhiều sơ đồ, hình ảnh minh họa", "B. Giải thích kỹ càng bằng nhiều cách khác nhau", "C. Hướng dẫn cho các học viên tự làm để rút ra bài học"],
+      ["A. Quan sát các thành viên trong ban nhạc cũng như các khán giả", "B. Lắng nghe lời bài hát và điệu nhạc", "C. Thả mình và nhún nhảy theo điệu nhạc"],
+      ["A. Tập trung vào các từ ngữ và hình ảnh trước mắt mình", "B. Suy nghĩ các vấn đề và giải pháp khả thi trong đầu", "C. Đi tới đi lui, quay bút, nhịp chân hoặc làm gì đó"],
+      ["A. Màu sắc và vóc dáng của chúng", "B. Những thông tin mà người bán hàng cung cấp", "C. Chất liệu của sản phẩm và cảm giác khi được chạm vào"],
+      ["A. Tưởng tượng tình huống xấu nhất có thể xảy ra", "B. Tự nói với mình về điều khiến mình lo nhất", "C. Không ngồi yên được, di chuyển liên tục"],
+      ["A. Vẻ bề ngoài của họ", "B. Những lời họ nói với mình", "C. Cách họ làm mình cảm thấy ra sao"],
+      ["A. Viết ra nhiều giấy nháp", "B. Tự nhẩm trong đầu hoặc học theo nhóm", "C. Đi tới đi lui, hình dung công thức qua cử chỉ tay chân"],
+      ["A. Thấy một cái gì đó ngoài cửa sổ", "B. Nghe thấy một tiếng động gì đó", "C. Ngồi yên quá lâu"],
+      ["A. Cho người đó thấy ý của mình là gì", "B. Giải thích nhiều cách khác nhau cho đến khi họ hiểu", "C. Khuyến khích họ làm thử và giải thích trong lúc họ đang làm"],
+      ["A. Xem phim, chụp ảnh, ngắm nghệ thuật", "B. Nghe nhạc, radio hay nói chuyện", "C. Tham gia thể thao, khiêu vũ hoặc ăn uống"],
+      ["A. Xem tivi", "B. Trò chuyện với bạn bè", "C. Tham gia hoạt động thể lực hoặc làm việc gì đó"],
+      ["A. Gặp mặt trực tiếp", "B. Nói chuyện qua điện thoại", "C. Tham gia chung một hoạt động để làm quen"],
+      ["A. Cách họ ăn mặc và bề ngoài", "B. Cách họ nói chuyện và giọng nói", "C. Cử chỉ và cách họ đi đứng"],
+      ["A. Liên tục hồi tưởng điều khiến mình không vui", "B. Lên tiếng cho mọi người biết mình cảm thấy thế nào", "C. Đập bàn ghế, đập cửa để trút giận"],
+      ["A. Khi tôi nhìn thấy", "B. Khi tôi nghe thấy", "C. Những việc tôi đã làm"],
+      ["A. Họ tránh ánh mắt của tôi", "B. Họ thay đổi giọng nói", "C. Họ biểu lộ cử chỉ lạ"],
+      ["A. “Rất vui được thấy bạn!”", "B. “Rất vui được nghe giọng bạn!”", "C. Ôm hay bắt tay người đó"],
+      ["A. Viết ghi chú hoặc giữ lại tài liệu", "B. Đọc to hoặc lặp lại các ý chính", "C. Làm và tưởng tượng hành động"]
+    ];
+
+    const vakForm = document.getElementById("vakForm");
+    const alertBox = document.getElementById("alert");
+
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      if (i === 0) div.classList.add("active");
+      div.innerHTML = `
+        <p>${q}</p>
+        <label><input type="radio" name="q${i}" value="A"> ${options[i][0]}</label><br>
+        <label><input type="radio" name="q${i}" value="B"> ${options[i][1]}</label><br>
+        <label><input type="radio" name="q${i}" value="C"> ${options[i][2]}</label>
+      `;
+      vakForm.appendChild(div);
+    });
+
+    let current = 0;
+    const questionDivs = document.querySelectorAll(".question");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function updateButtons() {
+      prevBtn.style.display = current === 0 ? "none" : "inline-block";
+      nextBtn.textContent = current === questionDivs.length - 1 ? "Hoàn tất" : "Câu hỏi tiếp theo";
+      document.getElementById("progress").textContent = `Câu ${current + 1} / ${questions.length}`;
+}
+
+    function navigate(step) {
+      const selected = document.querySelector(`input[name='q${current}']:checked`);
+      if (step === 1 && !selected) {
+        alertBox.style.display = "block";
+        return;
+      } else {
+        alertBox.style.display = "none";
+      }
+
+      if (step === 1 && current === questionDivs.length - 1) {
+        calculateResult();
+        return;
+      }
+
+      questionDivs[current].classList.remove("active");
+      setTimeout(() => {
+        questionDivs[current].style.display = "none";
+        current += step;
+        current = Math.max(0, Math.min(current, questionDivs.length - 1));
+        questionDivs[current].style.display = "block";
+      setTimeout(() => questionDivs[current].classList.add("active"), 10);
+      updateButtons();
+}, 200);}
+    prevBtn.onclick = () => navigate(-1);
+    nextBtn.onclick = () => navigate(1);
+    updateButtons();
+
+    function calculateResult() {
+      let visual = 0, auditory = 0, kinesthetic = 0;
+      for (let i = 0; i < questions.length; i++) {
+        const ans = document.querySelector(`input[name='q${i}']:checked`);
+        if (!ans) continue;
+        if (ans.value === "A") visual++;
+        else if (ans.value === "B") auditory++;
+        else if (ans.value === "C") kinesthetic++;
+      }
+
+      document.getElementById("vakForm").style.display = "none";
+      document.getElementById("navigation").style.display = "none";
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `
+        <h3>KẾT QUẢ BÀI TEST</h3>
+        <p>Thị giác (Visual): ${visual} điểm</p>
+        <p>Thính giác (Auditory): ${auditory} điểm</p>
+        <p>Vận động (Kinesthetic): ${kinesthetic} điểm</p>
+        <p><strong>Phong cách học tập nổi trội của bạn là: ${
+          Math.max(visual, auditory, kinesthetic) === visual ? "Thị giác (Visual)" :
+          Math.max(visual, auditory, kinesthetic) === auditory ? "Thính giác (Auditory)" :
+          "Vận động (Kinesthetic)"
+        }</strong></p>
+      `;
+    }
+  </script>
+</body>
+</html>
